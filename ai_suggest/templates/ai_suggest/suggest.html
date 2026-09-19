@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}اقترح لي وجبة{% endblock %}
+
+{% block content %}
+<div class="card p-5" style="max-width: 600px; margin: 0 auto;">
+    <h1 class="text-center mb-4">🤖 عايزة تاكلي إيه النهاردة؟</h1>
+    <form method="post">
+        {% csrf_token %}
+        <textarea name="preferences" class="form-control mb-3" rows="3" placeholder="مثلاً: عايزة حاجة فيها فراخ ومش حريفة"></textarea>
+        <button type="submit" class="btn btn-primary w-100">اقترح لي وجبة</button>
+    </form>
+
+    {% if suggestion %}
+    <div class="alert mt-4" style="background-color: var(--bg-light); border: 2px solid var(--accent-color);">
+        <strong>الاقتراح:</strong> {{ suggestion }}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

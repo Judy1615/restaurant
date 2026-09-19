@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}حذف {{ item.name }}{% endblock %}
+
+{% block content %}
+<h1>متأكدة إنك عايزة تحذفي "{{ item.name }}"؟</h1>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">نعم، احذف</button>
+    <a href="{% url 'menu:item_detail' item.pk %}" class="btn btn-secondary">إلغاء</a>
+</form>
+{% endblock %}

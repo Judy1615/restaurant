@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Restaurant{% endblock %} | مطعمنا</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --main-color: #c0392b;
+            --accent-color: #e67e22;
+            --dark-color: #2c1810;
+            --bg-light: #fdf6ec;
+        }
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--dark-color);
+        }
+        .navbar {
+            background-color: var(--dark-color) !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--accent-color) !important;
+        }
+        .btn-primary, .btn-success {
+            background-color: var(--main-color);
+            border-color: var(--main-color);
+        }
+        .btn-primary:hover, .btn-success:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+        .btn-outline-light:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+        h1, h3 {
+            font-weight: 700;
+            color: var(--dark-color);
+        }
+        h3 {
+            border-bottom: 3px solid var(--accent-color);
+            display: inline-block;
+            padding-bottom: 5px;
+            margin-bottom: 1.5rem;
+        }
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+            overflow: hidden;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .card-img-top {
+            height: 180px;
+            object-fit: cover;
+        }
+        .card-title {
+            font-weight: 700;
+        }
+        .card-text {
+            color: var(--main-color);
+            font-weight: 600;
+        }
+        footer {
+            background-color: var(--dark-color);
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark">
+        <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2">
+            <a class="navbar-brand" href="{% url 'pages:home' %}">🍽️ الذ وجبة ووجبة</a>
+            <form class="d-flex flex-grow-1 mx-3" style="max-width: 350px;" method="get" action="{% url 'menu:search_menu' %}">
+                <input class="form-control me-2" type="search" name="q" placeholder="ابحث عن أكلة...">
+                <button class="btn btn-outline-light" type="submit">بحث</button>
+            </form>
+           {% if user.is_authenticated %}
+    {% if user.is_staff %}
+        <span class="text-white align-self-center">👑 {{ user.username }}</span>
+    {% else %}
+        <span class="text-white align-self-center">👤 {{ user.username }}</span>
+    {% endif %}
+    <form method="post" action="{% url 'logout' %}" class="d-inline">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-outline-light">خروج</button>
+    </form>
+{% else %}
+    <a href="{% url 'login' %}" class="btn btn-outline-light">دخول</a>
+    <a href="{% url 'pages:signup' %}" class="btn btn-outline-light">حساب جديد</a>
+{% endif %}
+            <div class="d-flex gap-2">
+                <a href="{% url 'menu:menu_list' %}" class="btn btn-outline-light">المنيو</a>
+               {% if user.is_authenticated and not user.is_staff %}
+<a href="{% url 'cart:cart_detail' %}" class="btn btn-outline-light position-relative">
+    🛒 السلة
+    {% if cart_count %}
+    <span class="badge bg-danger rounded-pill position-absolute top-0 start-0 translate-middle">{{ cart_count }}</span>
+    {% endif %}
+</a>
+<a href="{% url 'cart:order_history' %}" class="btn btn-outline-light">📋 طلباتي</a>
+{% endif %}
+                <a href="{% url 'ai_suggest:suggest' %}" class="btn btn-outline-light">اقترح لي وجبة</a>
+                <a href="{% url 'pages:contact' %}" class="btn btn-outline-light">تواصل معنا</a>
+            </div>
+        </div>
+    </nav>
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    <div class="container py-4">
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer>
+        <p class="mb-0">© 2026 مطعمنا — كل الحقوق محفوظة</p>
+    </footer>
+</body>
+</html>

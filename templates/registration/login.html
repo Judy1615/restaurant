@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}تسجيل الدخول{% endblock %}
+
+{% block content %}
+<div class="card p-4" style="max-width: 400px; margin: 0 auto;">
+    <h1 class="mb-4 text-center">تسجيل دخول المالك</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary w-100">دخول</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}طلباتي{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">📋 طلباتي</h1>
+
+{% if orders %}
+{% for order in orders %}
+<div class="card p-3 mb-3">
+    <div class="d-flex justify-content-between">
+        <h5>طلب #{{ order.id }}</h5>
+        <span class="text-muted">{{ order.created_at|date:"d/m/Y H:i" }}</span>
+    </div>
+    <p class="mb-1">📍 {{ order.address }}</p>
+    <p class="mb-1">💳 {{ order.get_payment_method_display }}</p>
+    <ul class="list-unstyled mt-2">
+        {% for oi in order.items.all %}
+        <li>{{ oi.item_name }} × {{ oi.quantity }} = {{ oi.subtotal }} EGP</li>
+        {% endfor %}
+    </ul>
+    <h6 class="mt-2">الإجمالي: {{ order.total }} EGP</h6>
+</div>
+{% endfor %}
+{% else %}
+<p class="fs-5">مفيش طلبات لسه 🛍️</p>
+<a href="{% url 'menu:menu_list' %}" class="btn btn-primary">ابدأي التسوق</a>
+{% endif %}
+{% endblock %}

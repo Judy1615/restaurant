@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="text-center py-5" style="background: linear-gradient(135deg, #c0392b, #e67e22); border-radius: 20px; color: white; margin-bottom: 2rem;">
+    <h1 class="display-4 fw-bold text-white">أهلاً بيكم في الذ وجبة ووجبة 🍽️</h1>
+    <p class="lead">أشهى الأكلات، بأفضل الأسعار، وبإطلالة تفتح النفس</p>
+    <a href="{% url 'menu:menu_list' %}" class="btn btn-light btn-lg fw-bold mt-3">تصفح المنيو</a>
+</div>
+
+<div class="row text-center mt-5">
+    <div class="col-md-4 mb-3">
+        <h3 class="border-0">🍲 تنوع</h3>
+        <p>أصناف متنوعة من كل الفئات</p>
+    </div>
+    <div class="col-md-4 mb-3">
+        <h3 class="border-0">⚡ سرعة</h3>
+        <p>طلبك جاهز في أسرع وقت</p>
+    </div>
+    <div class="col-md-4 mb-3">
+        <h3 class="border-0">🤖 اقتراح ذكي</h3>
+        <p>مش عارفة تاكلي إيه؟ خلي الذكاء الاصطناعي يقترحلك</p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}السلة{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">🛒 سلة المشتريات</h1>
+
+{% if cart %}
+<table class="table align-middle">
+    <thead>
+        <tr>
+            <th>الوجبة</th>
+            <th>السعر</th>
+            <th>الكمية</th>
+            <th>الإجمالي</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in cart %}
+        <tr>
+            <td>{{ row.item.name }}</td>
+            <td>{{ row.item.price }} EGP</td>
+            <td>
+                <div class="d-flex align-items-center gap-2">
+                    <a href="{% url 'cart:cart_decrease' row.item.id %}" class="btn btn-sm btn-outline-secondary">-</a>
+                    <span>{{ row.quantity }}</span>
+                    <a href="{% url 'cart:cart_add' row.item.id %}" class="btn btn-sm btn-outline-secondary">+</a>
+                </div>
+            </td>
+            <td>{{ row.subtotal }} EGP</td>
+            <td><a href="{% url 'cart:cart_remove' row.item.id %}" class="btn btn-sm btn-danger">حذف</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="text-end">
+    <h4>الإجمالي: {{ cart.get_total }} EGP</h4>
+    <a href="{% url 'cart:checkout' %}" class="btn btn-success btn-lg mt-3">إتمام الطلب</a>
+</div>
+{% else %}
+<p class="fs-5">السلة فاضية 🛒</p>
+<a href="{% url 'menu:menu_list' %}" class="btn btn-primary">تصفحي المنيو</a>
+{% endif %}
+{% endblock %}

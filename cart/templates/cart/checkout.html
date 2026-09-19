@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}إتمام الطلب{% endblock %}
+
+{% block content %}
+<div class="card p-4" style="max-width: 500px; margin: 0 auto;">
+    <h1 class="mb-4 text-center">إتمام الطلب 🧾</h1>
+
+    <h5>ملخص الطلب:</h5>
+    <ul class="list-unstyled mb-3">
+        {% for row in cart %}
+        <li>{{ row.item.name }} × {{ row.quantity }} = {{ row.subtotal }} EGP</li>
+        {% endfor %}
+    </ul>
+    <h4 class="mb-4">الإجمالي: {{ cart.get_total }} EGP</h4>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">العنوان</label>
+            <textarea name="address" class="form-control" rows="2" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">طريقة الدفع</label>
+            <select name="payment_method" class="form-select" required>
+                <option value="cash">كاش عند الاستلام</option>
+                <option value="visa">فيزا</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-success w-100">تأكيد الطلب</button>
+    </form>
+</div>
+{% endblock %}
